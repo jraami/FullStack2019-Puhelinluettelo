@@ -8,12 +8,12 @@ const url = process.env.MONGODB_URI
 
 mongoose.connect(url)
     .then(result => {
-        console.log('connected to database.')
+        console.log('connected to database: ', result)
     })
     .catch((error) => {
         console.log('database connection error: ', error.message)
     })
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise
 
 const personSchema = new mongoose.Schema({
     name: {

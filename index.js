@@ -22,7 +22,7 @@ const formatPerson = (person) => {
 
 // How many entries
 
-app.get('/info', (request, response) => {
+app.get('/info', (request, response, next) => {
     Person
         .count({}, (err, count) => {
             response.send('There are ' + count + ' people in the phonebook.')
@@ -118,7 +118,7 @@ app.post('/api/persons', (request, response, next) => {
 
 // Update existing
 
-app.put('/api/persons/:id', (request, response) => {
+app.put('/api/persons/:id', (request, response, next) => {
     const id = request.params.id
     const body = request.body
     Person
@@ -140,12 +140,12 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-// Error handling 
+// Error handling
 
 const errorHandler = (error, request, response, next) => {
     console.error(error.message)
 
-    if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    if (error.name === 'CastError' && error.kind === 'ObjectId') {
         return response.status(400).send({ error: 'malformatted id' })
     }
     else if (error.name === 'ValidationError') {
