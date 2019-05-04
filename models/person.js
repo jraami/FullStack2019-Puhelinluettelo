@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
 }
 const url = process.env.MONGODB_URI
-console.log(process.env)
 
 mongoose.connect(url)
     .then(result => {
@@ -19,6 +19,7 @@ const personSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
         minlength: 3
     },
     number: {
@@ -27,6 +28,8 @@ const personSchema = new mongoose.Schema({
         minlength: 8
     }
 })
+
+personSchema.plugin(uniqueValidator)
 
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {
